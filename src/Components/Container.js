@@ -1,0 +1,78 @@
+import { useEffect, useState } from "react";
+import Card from "./Card";
+
+
+const Container = () => {
+    const [allData, setAllData] = useState([]);
+    const [data, setData] = useState([]);
+    const [search, setSearch] = useState('');
+    const [loading, setLoading] = useState(false);
+    // console.log(data);
+    // console.log(search);
+
+    useEffect(()=>{
+        handleData();
+    }, []);
+
+    async function handleData() {
+        setLoading(true);
+        const data = await fetch('https://fakestoreapi.com/products');
+        const json = await data.json();
+        setData(json);
+        setAllData(json);
+        setLoading(false);
+    }
+
+    const handleSubmit = () => {
+        if(search.trim() === '') {
+            setData(allData);
+        }
+        else {
+            const filteredData = allData.filter((item) => {
+                return item.title.toLowerCase().includes(search.toLowerCase());
+            })
+            setData(filteredData);
+        }
+        setSearch('');
+    }
+
+    return(
+        <>
+            <div className="flex justify-center items-center mt-10">
+                <input type="search" value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="Search" className="w-[30%] p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <button className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" onClick={() => handleSubmit()}>Search</button>
+                <select className="ml-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" onChange={(e) => {
+                    if(e.target.value === 'all') {
+                        setData(allData);
+                    }
+                    else {
+                        const filteredData = allData.filter((item) => {
+                            return item.category === e.target.value;
+                        })
+                        setData(filteredData);
+                    }
+                    }}
+                    >
+                    <option>all</option>
+                    <option>jewelery</option>
+                    <option>men's clothing</option>
+                    <option>electronics</option>
+                </select>
+            </div>
+            {
+                loading && <div className="flex justify-center items-center mt-10">
+                    <div className="loader w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                </div>
+            }
+            <section className="flex flex-wrap justify-center mt-10">
+            {
+                data.map((item) => {
+                    return <Card key={item.id} data={item} />
+                })
+            }
+            </section>
+        </>
+    );
+}
+
+export default Container;
