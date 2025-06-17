@@ -1,4 +1,4 @@
-
+import '../index.css';
 
 const Card = (props) => {
     const { data } = props;
@@ -6,7 +6,7 @@ const Card = (props) => {
 
     return(
         <>
-            <div className="card-container w-[20%] bg-white shadow-lg rounded-2xl p-4 pb-10 m-2 relative transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer">
+            <div className="card card-container w-[20%] bg-white shadow-lg rounded-2xl p-4 pb-10 m-2 relative transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer">
                 <div className="img w-[55%] h-[65%] mx-auto overflow-hidden relative">
                     <img className="w-full h-full object-contain" src={data.image} alt={data.title} />
                 </div>

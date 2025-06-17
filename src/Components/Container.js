@@ -64,7 +64,7 @@ const Container = () => {
                     <div className="loader w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
                 </div>
             }
-            <section className="flex flex-wrap justify-center mt-10">
+            <section className="flex flex-wrap justify-center mt-10 section">
             {
                 data.map((item) => {
                     return <Card key={item.id} data={item} />
