@@ -7,8 +7,8 @@ const Container = () => {
     const [data, setData] = useState([]);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(false);
-    // console.log(data);
-    // console.log(search);
+    const [category, setCategory] = useState([]);
+
 
     useEffect(()=>{
         handleData();
@@ -21,6 +21,7 @@ const Container = () => {
         setData(json);
         setAllData(json);
         setLoading(false);
+        setCategory(['all', ...new Set(json.map((item) => item.category))]);
     }
 
     const handleSubmit = () => {
@@ -53,10 +54,9 @@ const Container = () => {
                     }
                     }}
                     >
-                    <option>all</option>
-                    <option>jewelery</option>
-                    <option>men's clothing</option>
-                    <option>electronics</option>
+                    {category.map((item, index)=>{
+                        return <option key={index} value={item}>{item}</option>
+                    })}
                 </select>
             </div>
             {
